@@ -102,16 +102,16 @@
             <svg class="w-6 h-6 ml-3 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
             </svg>
-            <span class="text-lg font-semibold text-primary-green">أهداف المشروع</span>
+            <span class="text-lg font-semibold text-primary-green">اهداف المؤسسة</span>
           </div>
           
           <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
             <span class="bg-gradient-to-r from-primary-green to-primary-green bg-clip-text text-transparent">
-              أهداف المشروع
+              اهداف المؤسسة
             </span>
           </h2>
           <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            أهداف المشروع الرئيسية لتعزيز الحضور الرقمي والتفاعل مع المجتمع
+            اهداف المؤسسة الرئيسية لتعزيز الحضور الرقمي والتفاعل مع المجتمع
           </p>
         </div>
         
