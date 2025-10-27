@@ -14,6 +14,7 @@ import ClimateMap from './pages/ClimateMap.vue'
 import Jobs from './pages/Jobs.vue'
 import ContactUs from './pages/ContactUs.vue'
 import Newsletter from './pages/Newsletter.vue'
+import SuccessStories from './pages/SuccessStories.vue'
 
 const routes = [
   { path: '/', component: HomePage },
@@ -22,6 +23,7 @@ const routes = [
   { path: '/news', component: NewsPage },
   { path: '/media-gallery', component: MediaGallery },
   { path: '/resources', component: ResourcesLibrary },
+  { path: '/success-stories', component: SuccessStories },
   { path: '/climate-map', component: ClimateMap },
   { path: '/jobs', component: Jobs },
   { path: '/contact', component: ContactUs },

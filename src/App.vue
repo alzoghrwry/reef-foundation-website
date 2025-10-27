@@ -20,19 +20,73 @@
           
               <!-- Center - Navigation Links -->
               <div class="hidden lg:flex items-center space-x-6 space-x-reverse">
-            <router-link 
-              v-for="route in routes" 
-              :key="route.path"
-              :to="route.path" 
-                  class="flex items-center space-x-2 space-x-reverse text-gray-700 hover:text-primary-green font-medium transition-all duration-300"
+            <!-- Regular Routes -->
+            <template v-for="route in routes" :key="route.path">
+              <!-- Media Center with Dropdown -->
+              <div v-if="route.path === '/media-gallery'" class="relative" @mouseenter="mediaCenterOpen = true" @mouseleave="mediaCenterOpen = false">
+                <button 
+                  class="flex items-center space-x-2 space-x-reverse text-gray-700 hover:text-primary-green font-medium transition-all duration-300 px-4 py-2 rounded-lg"
                   :class="{ 
-                    'bg-gradient-to-r from-primary-green to-reef-green-600 text-white px-4 py-2 rounded-lg shadow-lg': $route.path === route.path,
-                    'hover:bg-light-beige px-4 py-2 rounded-lg': $route.path !== route.path
+                    'bg-gradient-to-r from-primary-green to-reef-green-600 text-white shadow-lg': isMediaCenterActive,
+                    'hover:bg-light-beige': !isMediaCenterActive
                   }"
                 >
                   <component :is="route.icon" class="w-5 h-5" />
-                  <span>{{ route.name }}</span>
-            </router-link>
+                  <span>المركز الإعلامي</span>
+                  <svg class="w-4 h-4 transition-transform duration-300" :class="{ 'rotate-180': mediaCenterOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+                
+                <!-- Dropdown Menu -->
+                <div v-if="mediaCenterOpen" class="absolute top-full mt-2 bg-white rounded-lg shadow-2xl py-2 min-w-[200px] z-50 border border-gray-200">
+                  <router-link 
+                    to="/media-gallery"
+                    @click="mediaCenterOpen = false"
+                    class="flex items-center space-x-2 space-x-reverse px-4 py-3 text-gray-700 hover:bg-light-beige hover:text-primary-green font-medium transition-all duration-200"
+                  >
+                    <component :is="route.icon" class="w-5 h-5 text-primary-green" />
+                    <span>المعرض</span>
+                  </router-link>
+                  
+                  <router-link 
+                    to="/resources"
+                    @click="mediaCenterOpen = false"
+                    class="flex items-center space-x-2 space-x-reverse px-4 py-3 text-gray-700 hover:bg-light-beige hover:text-primary-green font-medium transition-all duration-200 border-t border-gray-100"
+                  >
+                    <svg class="w-5 h-5 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    <span>التقارير والإصدارات</span>
+                  </router-link>
+                  
+                  <router-link 
+                    to="/success-stories"
+                    @click="mediaCenterOpen = false"
+                    class="flex items-center space-x-2 space-x-reverse px-4 py-3 text-gray-700 hover:bg-light-beige hover:text-primary-green font-medium transition-all duration-200 border-t border-gray-100"
+                  >
+                    <svg class="w-5 h-5 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                    </svg>
+                    <span>قصص النجاح</span>
+                  </router-link>
+                </div>
+              </div>
+              
+              <!-- Other Routes -->
+              <router-link 
+                v-else
+                :to="route.path" 
+                class="flex items-center space-x-2 space-x-reverse text-gray-700 hover:text-primary-green font-medium transition-all duration-300"
+                :class="{ 
+                  'bg-gradient-to-r from-primary-green to-reef-green-600 text-white px-4 py-2 rounded-lg shadow-lg': $route.path === route.path,
+                  'hover:bg-light-beige px-4 py-2 rounded-lg': $route.path !== route.path
+                }"
+              >
+                <component :is="route.icon" class="w-5 h-5" />
+                <span>{{ route.name }}</span>
+              </router-link>
+            </template>
           </div>
               
           <!-- Left Side - Language Button -->
@@ -81,17 +135,69 @@
         <div v-if="mobileMenuOpen" class="lg:hidden mt-4 pb-4">
           <!-- Navigation Links -->
           <div class="space-y-2 mb-6">
-          <router-link 
-            v-for="route in routes" 
-            :key="route.path"
-            :to="route.path" 
+          <template v-for="route in routes" :key="route.path">
+            <!-- Media Center with Dropdown -->
+            <div v-if="route.path === '/media-gallery'" class="space-y-2">
+              <button 
+                @click="toggleMobileMediaCenter"
+                class="w-full flex items-center justify-between py-3 px-4 text-gray-700 hover:text-primary-green hover:bg-light-beige font-medium transition-colors duration-300 rounded-lg"
+                :class="{ 'text-primary-green bg-light-beige border-r-4 border-primary-green': isMediaCenterActive }"
+              >
+                <div class="flex items-center space-x-2 space-x-reverse">
+                  <component :is="route.icon" class="w-5 h-5" />
+                  <span>المركز الإعلامي</span>
+                </div>
+                <svg class="w-5 h-5 transition-transform duration-300" :class="{ 'rotate-180': mobileMediaCenterOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              
+              <!-- Dropdown Items -->
+              <div v-if="mobileMediaCenterOpen" class="mr-6 space-y-1">
+                <router-link 
+                  to="/media-gallery"
+                  @click="mobileMenuOpen = false"
+                  class="flex items-center py-2 px-4 text-gray-600 hover:text-primary-green hover:bg-light-beige rounded-lg"
+                  :class="{ 'text-primary-green bg-light-beige border-r-2 border-primary-green': $route.path === '/media-gallery' }"
+                >
+                  <span class="mr-2">→</span>
+                  المعرض
+                </router-link>
+                
+                <router-link 
+                  to="/resources"
+                  @click="mobileMenuOpen = false"
+                  class="flex items-center py-2 px-4 text-gray-600 hover:text-primary-green hover:bg-light-beige rounded-lg"
+                  :class="{ 'text-primary-green bg-light-beige border-r-2 border-primary-green': $route.path === '/resources' }"
+                >
+                  <span class="mr-2">→</span>
+                  التقارير والإصدارات
+                </router-link>
+                
+                <router-link 
+                  to="/success-stories"
+                  @click="mobileMenuOpen = false"
+                  class="flex items-center py-2 px-4 text-gray-600 hover:text-primary-green hover:bg-light-beige rounded-lg"
+                  :class="{ 'text-primary-green bg-light-beige border-r-2 border-primary-green': $route.path === '/success-stories' }"
+                >
+                  <span class="mr-2">→</span>
+                  قصص النجاح
+                </router-link>
+              </div>
+            </div>
+            
+            <!-- Other Routes -->
+            <router-link 
+              v-else
+              :to="route.path" 
               class="flex items-center space-x-2 space-x-reverse py-3 px-4 text-gray-700 hover:text-primary-green hover:bg-light-beige font-medium transition-colors duration-300 rounded-lg"
               :class="{ 'text-primary-green bg-light-beige border-r-4 border-primary-green': $route.path === route.path }"
-            @click="mobileMenuOpen = false"
-          >
+              @click="mobileMenuOpen = false"
+            >
               <component :is="route.icon" class="w-5 h-5" />
               <span>{{ route.name }}</span>
-          </router-link>
+            </router-link>
+          </template>
           </div>
           
           <!-- Utility Icons for Mobile -->
@@ -337,7 +443,8 @@
 </template>
 
 <script>
-import { ref, defineComponent } from 'vue'
+import { ref, defineComponent, computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 // Icon components
 const HomeIcon = defineComponent({
@@ -407,12 +514,15 @@ export default {
     ContactIcon
   },
   setup() {
+    const route = useRoute()
     const mobileMenuOpen = ref(false)
     const showSearch = ref(false)
     const searchQuery = ref('')
     const currentLanguage = ref('ar')
     const newsletterEmail = ref('')
     const isNewsletterSubmitting = ref(false)
+    const mediaCenterOpen = ref(false)
+    const mobileMediaCenterOpen = ref(false)
     
     const routes = [
       { path: '/', name: 'الرئيسية', icon: 'HomeIcon' },
@@ -423,6 +533,10 @@ export default {
       { path: '/resources', name: 'التقارير والإصدارات', icon: 'ResourcesIcon' },
       { path: '/contact', name: 'تواصل معنا', icon: 'ContactIcon' }
     ]
+    
+    const isMediaCenterActive = computed(() => {
+      return ['/media-gallery', '/resources', '/success-stories'].includes(route.path)
+    })
     
     const toggleMobileMenu = () => {
       mobileMenuOpen.value = !mobileMenuOpen.value
@@ -438,6 +552,10 @@ export default {
     const toggleLanguage = () => {
       currentLanguage.value = currentLanguage.value === 'ar' ? 'en' : 'ar'
       // يمكن إضافة منطق تغيير اللغة هنا
+    }
+    
+    const toggleMobileMediaCenter = () => {
+      mobileMediaCenterOpen.value = !mobileMediaCenterOpen.value
     }
     
     const subscribeNewsletter = async () => {
@@ -464,9 +582,13 @@ export default {
       newsletterEmail,
       isNewsletterSubmitting,
       routes,
+      mediaCenterOpen,
+      mobileMediaCenterOpen,
+      isMediaCenterActive,
       toggleMobileMenu,
       toggleSearch,
       toggleLanguage,
+      toggleMobileMediaCenter,
       subscribeNewsletter
     }
   }
